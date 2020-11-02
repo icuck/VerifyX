@@ -84,7 +84,7 @@ function VerifyX.new(Status, Percentage)
 	Window.StatusText.AnchorPoint = Vector2.new(0.5, 0)
 	Window.StatusText.BackgroundTransparency = 1
 	Window.StatusText.Position = UDim2.new(0.5, 0, 0.775, 0)
-	Window.StatusText.Size = UDim2.new(0.5, 0, 0.075, 0)
+	Window.StatusText.Size = UDim2.new(0.55, 0, 0.0775, 0)
 	Window.StatusText.Font = Enum.Font.SciFi
 	Window.StatusText.Text = Status
 	Window.StatusText.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -158,9 +158,14 @@ function VerifyX.new(Status, Percentage)
 	end
 
 	function Window:Update(Status, Percentage, Data)
+		local Speed = 1
+		if Data and Data.Speed then
+			Speed = Data.Speed
+		end
+		
 		Window.StatusText.Text = Status
 		TweenService:Create(Window.StatusImage, TweenInfo.new(0.25, Enum.EasingStyle.Sine), {Size = UDim2.new(0.65, 0, 0.65, 0)}):Play()
-		local ProgressTween = TweenService:Create(Window.Fill, TweenInfo.new(1, Enum.EasingStyle.Back), {Size = UDim2.new(Percentage, 0, 1, 0)})
+		local ProgressTween = TweenService:Create(Window.Fill, TweenInfo.new(Speed, Enum.EasingStyle.Back), {Size = UDim2.new(Percentage, 0, 1, 0)})
 		ProgressTween:Play()
 		ProgressTween.Completed:Wait()
 		TweenService:Create(Window.StatusImage, TweenInfo.new(0.25, Enum.EasingStyle.Sine), {Size = UDim2.new(0.6, 0, 0.6, 0)}):Play()
@@ -188,7 +193,7 @@ function VerifyX.new(Status, Percentage)
 		local Collapse = TweenService:Create(Window.VerificationFrame, TweenInfo.new(0.75, Enum.EasingStyle.Sine), {Position = UDim2.new(0.5, 0, 1, 0), AnchorPoint = Vector2.new(0.5, 0)})
 		Collapse:Play()
 		Collapse.Completed:Wait()
-		Window.VerificationFrame:Destroy()
+		Window.ScreenGui:Destroy()
 	end
 	
 	coroutine.wrap(function()
